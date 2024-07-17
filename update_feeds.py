@@ -3,6 +3,7 @@ import pandas as pd
 import tabulate
 import feedparser
 import shutil
+import re
 
 # ######################################################################################################################################
 # RSS RELATED FUNCTIONS
@@ -41,20 +42,6 @@ def open_opml(filename):
                 feed_name = feed.attrib['text']
                 html_url = feed.attrib['htmlUrl']
                 xmlUrl = feed.attrib['xmlUrl']
-                
-                # Parse html_url to get the favicon
-                try:
-                    feed_html = feedparser.parse(html_url)
-                    meta = feed_html['feed']['meta']['content']
-                    print("\nMeta: ",meta)
-                    
-                    favicon = "./icons/generic.svg"
-                    
-                    # input("\nPress Enter to continue...")
-                except:
-                    print("The Favicon wasnt on html_url>feed>meta>content")
-                    favicon = "./icons/generic.svg"
-                
 
                 # Create an new Pandas Series
                 series = pd.Series([
@@ -62,8 +49,7 @@ def open_opml(filename):
                     subcategory_name, 
                     feed_name, 
                     html_url,
-                    favicon,
-                    xmlUrl], index=['Category', 'Subcategory', 'Feed', 'htmlUrl', 'favicon', 'xmlUrl'])
+                    xmlUrl], index=['Category', 'Subcategory', 'Feed', 'htmlUrl', 'xmlUrl'])
                 
                 # Add the Series to the DataFrame
                 feeeds = pd.concat([feeeds, series.to_frame().T], ignore_index=True)
@@ -79,6 +65,8 @@ def open_opml(filename):
 
 def fetch_feed(feeds):
     
+    fetched_feeds = pd.DataFrame()
+    
     category_keys = {}
     
     news = pd.DataFrame()
@@ -93,15 +81,71 @@ def fetch_feed(feeds):
         if category not in category_keys:
             category_keys[category] = []
 
-
         try:
             NewsFeed = feedparser.parse(row['xmlUrl'])
             
-            # Print the attributes of NewsFeed
-            print(NewsFeed.keys())
-            input("Press Enter to continue...")
+            print(f"\n\n\n{index+1}/{len(feeds)} [{category}] | Fetching {row['Feed']} | Number of RSS posts :{len(NewsFeed.entries)} | URL: {row['xmlUrl']}")
+            # dict_keys(['bozo', 'entries', 'feed', 'headers', 'etag', 'updated', 'updated_parsed', 'href', 'status', 'encoding', 'version', 'namespaces'])
+
+            # print(f"Image in feed>image>: {NewsFeed.feed.image.keys()}")
+            # print(f"Image in feed>image: {NewsFeed.feed.image.keys()}")
+
+        # ##################################################################################################################################################################
             
-            print(f"{index+1}/{len(feeds)} [{category}] | Fetching {row['Feed']} | Number of RSS posts :{len(NewsFeed.entries)}")
+            favicon = "./icons/generic.svg"
+            
+            if 'feed' in NewsFeed and 'meta' in NewsFeed['feed']: 
+                print(f"Image in feed>meta>content: {NewsFeed['feed']['meta']}")
+                favicon = NewsFeed['feed']['meta']
+                
+            if 'image' in NewsFeed.feed and 'url' in NewsFeed.feed['image']: 
+                print(f"Image in feed>url: {NewsFeed.feed.image['url']}")
+                favicon = NewsFeed.feed.image['url']
+                
+            if 'icon' in NewsFeed.feed:
+                print(f"Image in feed>icon: {NewsFeed.feed.icon}")
+                favicon = NewsFeed.feed.icon
+                
+            if favicon == "./icons/generic.svg": 
+                
+                # Print the keys recursively
+                print("\All keys recursively:")
+                print(NewsFeed.keys())
+                print_keys(NewsFeed)
+                                
+                input("Press Enter to continue...")
+
+            # if '<icon>' in NewsFeed
+            
+            # # Print the first 100 characters of the feed
+            # print("\nTipo da variavel NewsFeed: ",type(NewsFeed))
+            # image_urls = extract_image_urls(str(NewsFeed))
+            # print("Image URLs:")
+            # for image_url in image_urls:
+            #     print(image_url)
+
+            # in str(NewsFeed) fin .webp and .jpg and .png and .gif and .svg and .jpeg 
+                
+        # ##################################################################################################################################################################
+
+            # Create an new Pandas Series
+            series = pd.Series([
+                row['Category'], 
+                row['Subcategory'], 
+                row['Feed'],
+                row['htmlUrl'],
+                row['xmlUrl'],
+                favicon,
+                ], index=['Category', 'Subcategory', 'Feed', 'htmlUrl', 'xmlUrl', 'Icon'])
+            
+            # Add the Series to the DataFrame
+            fetched_feeds = pd.concat([fetched_feeds, series.to_frame().T], ignore_index=True)
+        
+        # ##################################################################################################################################################################
+        
+            # # Print the attributes of NewsFeed
+            # print(NewsFeed.keys())
+            # input("Press Enter to continue...")
                     
             # Iterate through each post
             for entry in NewsFeed.entries:
@@ -328,13 +372,11 @@ def fetch_feed(feeds):
                 
                 news = pd.concat([news, series.to_frame().T], ignore_index=True)
                 
-                
         except Exception as e:
             print(f"Error fetching {row['Feed']}: {e}")
             
-    return news
+    return news, fetched_feeds
             
-                
 # ######################################################################################################################################
 #  AUXILIARY FUNCTIONS
 def print_line():
@@ -343,9 +385,19 @@ def print_line():
     # Print a separator
     print("#" * screen_width)
 
+def print_keys(d, prefix=''):
+    """Recursively prints the keys of a nested dictionary."""
+    if isinstance(d, dict):
+        for key, value in d.items():
+            print(f"{prefix}{key}")
+            print_keys(value, prefix + '  ')
+    elif isinstance(d, list):
+        for index, item in enumerate(d):
+            print(f"{prefix}[{index}]")
+            print_keys(item, prefix + '  ')
+            
 # ######################################################################################################################################
 # MAIN LOOP
-
 
 if __name__ == "__main__":
 
@@ -354,7 +406,7 @@ if __name__ == "__main__":
     
     feeds = open_opml(filename)
     
-    news = fetch_feed(feeds)
+    news, feeds = fetch_feed(feeds)
 
     print("\nSalvando dados em Excell...")
     
@@ -382,10 +434,7 @@ if __name__ == "__main__":
             'Published',
             'Summary_detail',
             'Media_community',
-            
-            
             ], axis=1)
-        
         
         # Remove EMpty columns
         news_by_category = news_by_category.dropna(axis=1, how='all')
@@ -396,7 +445,3 @@ if __name__ == "__main__":
         news_by_category.to_excel(excel_writer, sheet_name=category, index=False)
         
     excel_writer._save()
-
-
-
-
