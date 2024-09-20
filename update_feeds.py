@@ -4,6 +4,11 @@ import tabulate
 import feedparser
 import shutil
 import re
+from bs4 import BeautifulSoup
+import requests
+from urllib.parse import urlparse
+import favicon
+
 
 # ######################################################################################################################################
 # RSS RELATED FUNCTIONS
@@ -37,7 +42,7 @@ def open_opml(filename):
             
             # Iterate through each feed
             for feed in subcategory:
-                print_line()
+                # print_line()
 
                 feed_name = feed.attrib['text']
                 html_url = feed.attrib['htmlUrl']
@@ -59,16 +64,14 @@ def open_opml(filename):
     #Remove htmlUrl and xmlUrl columns
     cleared_feeds = cleared_feeds.drop(['htmlUrl', 'xmlUrl'], axis=1)
     
-    
     print(tabulate.tabulate(cleared_feeds, headers='keys', tablefmt='psql'))
+    
     return feeeds
 
 def fetch_feed(feeds):
     
     fetched_feeds = pd.DataFrame()
-    
     category_keys = {}
-    
     news = pd.DataFrame()
     
     # Iterate through each feed
@@ -85,46 +88,19 @@ def fetch_feed(feeds):
             NewsFeed = feedparser.parse(row['xmlUrl'])
             
             print(f"\n\n\n{index+1}/{len(feeds)} [{category}] | Fetching {row['Feed']} | Number of RSS posts :{len(NewsFeed.entries)} | URL: {row['xmlUrl']}")
-            # dict_keys(['bozo', 'entries', 'feed', 'headers', 'etag', 'updated', 'updated_parsed', 'href', 'status', 'encoding', 'version', 'namespaces'])
-
-            # print(f"Image in feed>image>: {NewsFeed.feed.image.keys()}")
-            # print(f"Image in feed>image: {NewsFeed.feed.image.keys()}")
 
         # ##################################################################################################################################################################
-            
-            favicon = "./icons/generic.svg"
-            
-            if 'feed' in NewsFeed and 'meta' in NewsFeed['feed']: 
-                print(f"Image in feed>meta>content: {NewsFeed['feed']['meta']}")
-                favicon = NewsFeed['feed']['meta']
-                
-            if 'image' in NewsFeed.feed and 'url' in NewsFeed.feed['image']: 
-                print(f"Image in feed>url: {NewsFeed.feed.image['url']}")
-                favicon = NewsFeed.feed.image['url']
-                
-            if 'icon' in NewsFeed.feed:
-                print(f"Image in feed>icon: {NewsFeed.feed.icon}")
-                favicon = NewsFeed.feed.icon
-                
-            if favicon == "./icons/generic.svg": 
-                
-                # Print the keys recursively
-                print("\All keys recursively:")
-                print(NewsFeed.keys())
-                print_keys(NewsFeed)
-                                
-                input("Press Enter to continue...")
+                        
+            icons = favicon.get(row['htmlUrl'])
+                        
+            # Select the icon with the highest resolution
+            if icons:
+                largest_icon = max(icons, key=lambda icon: icon.width)
+                print(f"Icon with highest resolution: {largest_icon.url} ({largest_icon.width}x{largest_icon.height})")
+            else:
+                print("No icons found, using generic icon.")
+                largest_icon = "./icons/generic.svg"
 
-            # if '<icon>' in NewsFeed
-            
-            # # Print the first 100 characters of the feed
-            # print("\nTipo da variavel NewsFeed: ",type(NewsFeed))
-            # image_urls = extract_image_urls(str(NewsFeed))
-            # print("Image URLs:")
-            # for image_url in image_urls:
-            #     print(image_url)
-
-            # in str(NewsFeed) fin .webp and .jpg and .png and .gif and .svg and .jpeg 
                 
         # ##################################################################################################################################################################
 
@@ -135,18 +111,15 @@ def fetch_feed(feeds):
                 row['Feed'],
                 row['htmlUrl'],
                 row['xmlUrl'],
-                favicon,
+                largest_icon,
+                # favicon,
                 ], index=['Category', 'Subcategory', 'Feed', 'htmlUrl', 'xmlUrl', 'Icon'])
             
             # Add the Series to the DataFrame
             fetched_feeds = pd.concat([fetched_feeds, series.to_frame().T], ignore_index=True)
         
         # ##################################################################################################################################################################
-        
-            # # Print the attributes of NewsFeed
-            # print(NewsFeed.keys())
-            # input("Press Enter to continue...")
-                    
+                            
             # Iterate through each post
             for entry in NewsFeed.entries:
                 
@@ -379,6 +352,7 @@ def fetch_feed(feeds):
             
 # ######################################################################################################################################
 #  AUXILIARY FUNCTIONS
+
 def print_line():
     # Get the width of the screen
     screen_width = shutil.get_terminal_size().columns
@@ -395,14 +369,42 @@ def print_keys(d, prefix=''):
         for index, item in enumerate(d):
             print(f"{prefix}[{index}]")
             print_keys(item, prefix + '  ')
-            
+
+def get_favicon_from_domain(domain):
+    # Try the common favicon location first
+    try:
+        response = requests.get(domain + 'favicon.ico', timeout=5)
+        if response.status_code == 200:
+            return domain + 'favicon.ico'
+    except requests.RequestException:
+        pass
+
+    # Fallback: Parse HTML and look for <link rel="icon"> or <link rel="shortcut icon">
+    try:
+        response = requests.get(domain, timeout=5)
+        soup = BeautifulSoup(response.text, 'html.parser')
+        icon_link = soup.find("link", rel="icon")
+        if not icon_link:
+            icon_link = soup.find("link", rel="shortcut icon")
+        
+        if icon_link and 'href' in icon_link.attrs:
+            icon_url = icon_link['href']
+            # Handle relative URLs
+            if icon_url.startswith('/'):
+                icon_url = domain + icon_url.lstrip('/')
+            return icon_url
+    except requests.RequestException:
+        pass
+
+    return "./icons/generic.svg"
+
 # ######################################################################################################################################
 # MAIN LOOP
 
 if __name__ == "__main__":
 
     # Example usage
-    filename = 'All_Feeds.opml'
+    filename = 'All_Feeds complete.opml'
     
     feeds = open_opml(filename)
     

@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+
+<html lang="en">
+
+  <head>
+
+    {% include 'header.html' %}
+
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style_novo.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/timeline.css') }}">
+  
+  </head>
+
+  <body class="hold-transition sidebar-mini layout-fixed">
+
+    <div class="wrapper">
+
+      {% include 'navbar.html' %}
+
+      <div class="content-wrapper content-index">
+
+        <div class="container-fluid">
+
+          <div class="container">
+            <div class="row">
+              <div class="col">
+
+                <div class="d-flex justify-content-around mt-5 cabecalho"></div>
+                  <h2 class="title d-inline-block">Feedback</h2><br><br>
+                </div>
+
+
+              </div>
+            </div>
+          </div>
+
+        </div>
+
+      </div>
+
+    </div>
+
+  </body>
+
+</html>
