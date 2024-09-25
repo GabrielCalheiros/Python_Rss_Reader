@@ -5,17 +5,17 @@
 ![image](https://img.shields.io/badge/JavaScript-323330?style=for-the-badge&logo=javascript&logoColor=F7DF1E)
 ![image](https://img.shields.io/badge/Python-FFD43B?style=for-the-badge&logo=python&logoColor=blue)
 
-Some scripts to fetch the feeds stored in an opml file and build an static frontend for personalized visualization
-
 ## 🚀 About
 
-Project Structure:
+This project aims to take an OPML file, fetch all the feeds and store them in an excel file, and generate a website with all the feeds. The idea is that after built, you should put the update feed script in the cron job.
 
 ## 📝 How to Build
 
+### Getting Started
+
 ## 📚 Documentation 
 
-
+### Project Structure:
 
 <pre>
 
@@ -44,6 +44,3 @@ Project Structure:
         └───index_template.html
 
 </pre>
-
-
-### Getting Started
