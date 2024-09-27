@@ -15,6 +15,8 @@ import favicon
 def fetch_rss_feed(dataframe_feeds):
     
     news = pd.DataFrame()
+    
+    number_of_iterations = len(dataframe_feeds)
 
     # Iterate through each feed
     for index, row in dataframe_feeds.iterrows():
@@ -22,7 +24,7 @@ def fetch_rss_feed(dataframe_feeds):
         url = row['xmlUrl']
         
         # Parse the RSS feed
-        print(f"Fetching {row['Feed']} | URL: {row['xmlUrl']}")
+        print(f"[{index+1}/{number_of_iterations}] Fetching {row['Feed']}")
         
         NewsFeed = feedparser.parse(url)
         
@@ -141,8 +143,38 @@ def fetch_rss_feed(dataframe_feeds):
             
     return news
 
+def fetch_all_youtube_videos(channel_url):
+    # Instancia o objeto do canal do YouTube
+    channel = Channel(channel_url)
+    
+    print(f'Fetching videos from channel: {channel.channel_name}')
+    
+    # Lista para armazenar os vídeos
+    videos = []
+    
+    # Itera sobre todos os vídeos do canal
+    for video in channel.videos:
+        videos.append({
+            "title": video.title,
+            "url": video.watch_url,
+            "views": video.views,
+            "publish_date": video.publish_date
+        })
+        print(f'Video: {video.title} ({video.publish_date})')
+    
+    return videos
+
 # ######################################################################################################################################
 #  AUXILIARY FUNCTIONS
+
+def append_new_entries(existing_df, new_entries):
+    # Use 'Title' and 'Feed' columns to find new entries
+    combined_df = pd.merge(new_entries, existing_df, on=['Title', 'Feed'], how='left', indicator=True)
+    
+    # Filter rows that are only in new_entries ('_merge' == 'left_only')
+    new_rows = combined_df[combined_df['_merge'] == 'left_only'].drop('_merge', axis=1)
+    
+    return new_rows
 
 def print_line():
     # Get the width of the screen
@@ -157,10 +189,19 @@ if __name__ == "__main__":
 
     # Convert the file to an dataframe
     feeds = pd.read_excel("../Data/feeds.xlsx")
-    
+        
     # Get the news
     news = fetch_rss_feed(feeds)
     
+    # Read the existing entries.xlsx file
+    try:
+        existing_entries = pd.read_excel("../Data/entries.xlsx", sheet_name=None)
+    except FileNotFoundError:
+        existing_entries = {}
+    
+    # Save the news to an excel file
+    excel_writer = pd.ExcelWriter(f'../Data/entries.xlsx', engine='xlsxwriter')
+
     # Separate news by category and save each category to an excel file
     for category in news['Category'].unique():
         
@@ -169,29 +210,29 @@ if __name__ == "__main__":
         # Drop the category column
         news_by_category = news_by_category.drop('Category', axis=1)
         
-        # Drop Collumns not beeing used right now
+        # Drop Columns not being used right now
         news_by_category = news_by_category.drop([
-            'Title_detail', 
-            'Author_detail',
-            'Wfw_commentrss',
-            'Slash_comments',
-            'Comments',
-            'Links',
-            'Authors',
-            'Published',
-            'Summary_detail',
-            'Media_community',
-            'Updated' 
-            ], axis=1)
+            'Author_detail', 'Wfw_commentrss', 'Slash_comments', 'Comments',
+            'Links', 'Authors', 'Published', 'Media_community', 'Updated'
+        ], axis=1)
         
-        # Remove EMpty columns
+        # Remove Empty columns
         news_by_category = news_by_category.dropna(axis=1, how='all')
         
-        # Make collumns width automatic
-        news_by_category = news_by_category.style.set_properties(**{'width': 'auto'})
-            
-    excel_writer = pd.ExcelWriter(f'../Data/entries.xlsx', engine='xlsxwriter')
-    
-    news_by_category.to_excel(excel_writer, sheet_name='Entries', index=False)
+        # Check if the category already exists in the existing entries
+        if category in existing_entries:
+            existing_df = existing_entries[category]
+        else:
+            existing_df = pd.DataFrame()  # Empty DataFrame for new categories
+
+        # Append new entries
+        new_entries = append_new_entries(existing_df, news_by_category)
         
+        # Concatenate new entries with the existing data for this category
+        combined_data = pd.concat([existing_df, new_entries], ignore_index=True)
+
+        # Save the updated category data to the excel file
+        combined_data.to_excel(excel_writer, sheet_name=category, index=False)
+        
+    # Save the Excel file
     excel_writer._save()
