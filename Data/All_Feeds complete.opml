@@ -1,10 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <opml version="2.0">
+
     <head>
         <title>QuiteRSS</title>
         <dateModified>sex set 20 11:50:37 2024</dateModified>
     </head>
+
     <body>
+
         <outline text="News">
             <outline text="News - Sports">
                 <outline text="Flamengo – Notícias e jogo do Flamengo – Coluna do Fla" type="rss" htmlUrl="https://colunadofla.com/" xmlUrl="https://colunadofla.com/feed/"/>
@@ -71,6 +74,7 @@
                 <outline text="Newest | OpenHardware.io" type="rss" htmlUrl="https://www.openhardware.io/" xmlUrl="https://www.openhardware.io/list?rss=1&amp;view=newest"/>
             </outline>
         </outline>
+
         <outline text="Social Networks">
             <outline text="Social Networks - Twitter">
                 <outline text="Dr West Bestern 🛡️ / @western_bester" type="rss" htmlUrl="https://nitter.net/western_bester" xmlUrl="https://nitter.net/western_bester/rss"/>
@@ -84,6 +88,7 @@
                 <outline text="Christian Aryanism — Fides et Gens, Inseperable. - Telegram Channel" type="rss" htmlUrl="https://t.me/s/ChristianAryanism" xmlUrl="https://rsshub.app/telegram/channel/ChristianAryanism"/>
             </outline>
         </outline>
+
         <outline text="Blogs">
             <outline text="Blogs - Politics">
                 <outline text="The Alternative Hypothesis" type="rss" htmlUrl="https://thealternativehypothesis.org" xmlUrl="http://thealternativehypothesis.org/index.php/feed/"/>
@@ -146,6 +151,7 @@
             </outline>
             <outline text="Frazetta Girls - Blog" type="rss" htmlUrl="https://www.frazettagirls.com/blogs/news" xmlUrl="https://www.frazettagirls.com/blogs/news.atom"/>
         </outline>
+
         <outline text="Podcasts">
             <outline text="Podcasts - Music">
                 <outline text="Rádiofobia Classics" type="rss" htmlUrl="https://radiofobia.com.br/podcast/category/podcast/classics/" xmlUrl="https://www.omnycontent.com/d/playlist/0009b167-0e82-414e-91eb-aae8011fc66d/6e4f7160-4d3f-45af-830d-ac610169e90a/94c2dc7d-c8e2-4f15-9352-ac61016abe3e/podcast.rss"/>
@@ -188,6 +194,7 @@
                 <outline text="Red Ice Radio" type="rss" htmlUrl="https://redice.tv/red-ice-radio" xmlUrl="https://redice.tv/rss/red-ice-radio"/>
             </outline>
         </outline>
+
         <outline text="Videos">
             <outline text="Videos - Archives">
                 <outline text="Time Train" type="rss" htmlUrl="https://www.youtube.com/channel/UCHvdjp-zVFwXM7VJRk5f6iA" xmlUrl="https://www.youtube.com/feeds/videos.xml?channel_id=UCHvdjp-zVFwXM7VJRk5f6iA"/>
@@ -512,5 +519,7 @@
                 <outline text="carykh" type="rss" htmlUrl="https://www.youtube.com/channel/UC9z7EZAbkphEMg0SP7rw44A" xmlUrl="https://www.youtube.com/feeds/videos.xml?channel_id=UC9z7EZAbkphEMg0SP7rw44A"/>
             </outline>
         </outline>
+
     </body>
+    
 </opml>
