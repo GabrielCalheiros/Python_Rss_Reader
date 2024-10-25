@@ -7,11 +7,35 @@
 
 ## 🚀 About
 
-This project aims to take an OPML file, fetch all the feeds and store them in an excel file, and generate a website with all the feeds. The idea is that after built, you should put the update feed script in the cron job.
+This is a simple python rss feed reader built with the flask framework. This is a project for my personal use, and the original though is for this to be only used in local networks, not served externally (no login required or authentication system is used).
 
 ## 📝 How to Build
 
-### Getting Started
+### How to import the rss feed into your app:
+
+Using an OPML, the structure of the OPML must be the following:
+
+<pre>
+    Outline 1 [Category]
+    .
+    ├── Outline 1 [Category]
+    │   ├── Outline 1.1 [Sub-Category]
+    │   │   ├── Outline 1.1.1 [Feed]
+    │   |   └── Outline 1.1.2 [Feed]
+    │   ├── Outline 1.2 [Sub-Category]
+    │   |   ├── Outline 1.2.1 [Feed]
+    │   |   └── Outline 1.2.2 [Feed]
+    |   |   └── Outline 1.2.3 [Feed]
+    │   └── Outline 1.1 [Sub-Category]
+    ├── Outline 2 [Category]
+    |   ├── Outline 2.1 [Sub-Category]
+    |   │   └── Outline 2.1.1 [Feed]
+    |   └── Outline 2.1 [Sub-Category]
+    |   ├── Outline 2.2 [Sub-Category]
+    |   └── Outline 2.3 [Sub-Category]
+</pre>
+
+The first outline is the main category, the second the sub-category and the last the feed. If the category or sub-category does not exist, it will be created, and the standart view will be used for it. You can change the standart view in the index page. 
 
 ## 📚 Documentation 
 
@@ -19,28 +43,62 @@ This project aims to take an OPML file, fetch all the feeds and store them in an
 
 <pre>
 
-    ├───Assets
-    │   ├───css
-    │   │   ├───adminlte.min.css
-    │   │   ├───bootstrap.min.css
-    │   │   └───dataTables.dataTables.min.css
-    │   ├───images
-    │   │   └───feed_icons
-    │   └───js
-    │       ├───adminlte.min.js
-    │       ├───bootstrap.bundle.min.js
-    │       ├───dataTables.min.js
-    │       └───jquery-3.6.0.min.js
-    ├───Data
-    |   ├───feeds.opml [Initial File to import the RSS Feeds]
-    |   └───feeds.xlsx [Sckaped Feeds, with icons, informations, etc.] 
-    ├───Scripts
-    |   ├───update_feeds.py
-    |   └───update_frontend.py
-    |
-    └───Templates
-        ├───header.html
-        ├───navbar.html
-        └───index_template.html
+    .
+    ├── .env
+    ├── README.md
+    ├── requirements.txt
+    ├── database.sql
+    ├── config.py
+    ├── run.py
+    └── app
+        ├── __init__.py
+        ├── models.py
+        ├── routes.py 
+        ├── feeds_fetcher.py
+        ├── static
+        │   ├── css
+        │   │   ├───adminlte.min.css
+        │   │   ├───bootstrap.min.css
+        │   │   └───dataTables.dataTables.min.css
+        │   ├── js
+        │   |   ├───adminlte.min.js
+        │   |   ├───bootstrap.bundle.min.js
+        │   |   ├───dataTables.min.js
+        │   |   └───jquery-3.6.0.min.js
+        │   └── images
+        │       ├───[IMAGES]
+        |       └── feed_icons
+        |           └── [FEED_ICONS]
+        └── templates
+            ├── index.html
+            ├── category_view.html
+            ├── subcategory_view.html
+            ├── single_feed_view.html
+            └── components
+                ├── header.html
+                ├── navbar.html
+                └── [MINOR COMPONENTS]
 
 </pre>
+
+### Project Routes:
+
+**Served Pages:**
+
+- /index
+- /category_view?category=[id_category]
+- /subcategory_view?subcategory=[id_subcategory]
+- /feed_view?feed=[id_feed]
+  
+**Actions:**
+
+- /import_opml
+- /update_feeds
+- /add_feed
+- /remove_feed
+Todo list notes:
+[] Unify published and published_parsed
+[] Unify content and media_content
+[] Unify wfw_commentrss and slash_comments
+[] Unify image and media_thumbnail and googleplay_image
+[] Unify itunes_explicit and googleplay_explicit
