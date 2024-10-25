@@ -1,0 +1,451 @@
+:root {
+    --light_color_1: #ffffff;
+    --light_color_2: #f8f9fa;
+    --light_color_3: #e9ecef;
+    --light_color_4: #2b2b2b;
+    --light_color_5: #ced4da;
+    --light_color_6: #adb5bd;
+    --light_color_7: #868e96;
+    --light_color_8: #495057;
+    --light_color_9: #343a40;
+    --light_color_10: #212529;
+    --red: #dc3545;
+    --green: #28a745;
+    --blue: #007bff;
+    --yellow: #ffc107;
+    --orange: #fd7e14;
+    --purple: #6f42c1;
+    --cyan: #17a2b8;
+    /* --background: linear-gradient(90deg, rgba(28, 28, 28, 1) 0%, rgba(28, 28, 28, 0.9004096638655462) 50%, rgba(28, 28, 28, 1) 100%); */
+    --background: radial-gradient(circle, rgba(59,56,56,1) 0%, rgba(38,37,37,1) 100%);
+    --cores_letras: #c2c2c2;
+    /* --background_login_register: #353535; */
+    --background_login_register: radial-gradient(circle, rgba(56,53,53,1) 0%, rgba(38,37,37,1) 86%);
+    --color_input: #3d3a3a;
+    /* --color_input: #303030; */
+    --input_index_search :#68727C;
+    --input_index_button_search :#309F27;
+    /* --nav-color: #4F5962; */
+    --nav-color: linear-gradient(90deg, rgba(45,50,55,1) 0%, rgba(56,63,70,1) 50%, rgba(79,89,98,1) 100%);
+    /* --nav-color: linear-gradient(90deg, rgba(37,37,37,1) 0%, rgba(53,53,53,1) 72%, rgba(53,62,64,1) 100%); */
+    /* --aside-color: linear-gradient(90deg, rgba(53,62,64,1) 0%, rgba(53,53,53,1) 0%, rgba(37,37,37,1) 100%); */
+    --aside-color: #343A40;
+    --color_table:#4F5962;
+}
+
+body, .content-index{
+    font-family: monospace !important;
+    text-align: justify;
+    background: var(--background);
+    color: var(--cores_letras)
+}
+
+/* ScrollBar */
+::-webkit-scrollbar {
+    width: 5px;
+}
+::-webkit-scrollbar-track {
+    background: var(--background_login_register);
+}
+::-webkit-scrollbar-thumb { 
+    background: var(--nav-color);
+}
+
+/* ======================================================================= */
+
+
+/* Pagination */
+
+#viagens-table_wrapper > div.row.mt-3.row_pagination > div > nav > ul{
+    justify-content: center;
+}
+
+
+#tabelaContagem_wrapper > div.row.mt-3 > div:nth-child(2) > div > nav > ul {
+    justify-content: center !important;
+}
+
+.page-item.active .page-link{
+    z-index: auto !important;
+}
+
+/* Default state */
+.page-item .page-link {
+    background-color: #6c757d; /* Bootstrap btn-secondary background color */
+    border-color: #6c757d; /* Bootstrap btn-secondary border color */
+    color: #c2c2c2; /* White text color */
+}
+
+/* Disabled state */
+.page-item.disabled .page-link {
+    background-color: #6c757d; /* Keep the same background color */
+    border-color: #6c757d; /* Keep the same border color */
+    color: #c2c2c2; /* Light gray text color for disabled state */
+}
+
+/* Active state */
+.page-item.active .page-link {
+    background-color: #c2c2c2; /* White background for active state */
+    border-color: #6c757d; /* Bootstrap btn-secondary border color */
+    color: #6c757d; /* Dark gray text color for active state */
+}
+
+/* Hover state */
+.page-item .page-link:hover {
+    background-color: #5a6268; /* Darker shade of btn-secondary */
+    border-color: #5a6268; /* Darker border color */
+    color: #c2c2c2; /* White text color */
+}
+
+/* Focus state */
+.page-item .page-link:focus {
+    background-color: #5a6268; /* Darker shade of btn-secondary */
+    border-color: #5a6268; /* Darker border color */
+    color: #c2c2c2; /* White text color */
+}
+
+
+/* ======================================================================= */
+
+/* button search - placa search */
+#search-placa, #search-button{
+    border-radius: 15px;
+    background-color: var(--input_index_button_search);
+    box-shadow:  0px 11px 7px -6px rgba(0,0,0,0.58);
+}
+
+#placa-input{
+    border: none;
+    background-color: var(--input_index_search);
+    border-radius: 15px;
+    color: var(--light_color_1);
+    text-align: center;
+    box-shadow:  0px 11px 7px -6px rgba(0,0,0,0.58);
+}
+
+#placa-input::placeholder{
+    color: var(--light_color_1);
+    text-align: center
+}
+
+/* ======================================================================= */
+
+/* Navbar */
+
+.nav-main, .main-sidebar{
+    box-shadow: 1px 3px 30px 0px rgba(0, 0, 0, 0.3);
+}
+
+.main-header .navbar-nav > .nav-item > .nav-link {
+    white-space: nowrap;
+    transition: margin-left 0.3s ease-in-out;
+}
+
+.nav-color{
+    background: var(--nav-color);
+    border: none;
+}
+
+.aside-color{
+    background: var(--aside-color)
+}
+
+::-webkit-calendar-picker-indicator {
+    background-image: url('/static/image/calendar-week.svg');
+    filter: invert(1);
+}
+
+.forms-nav-bar input{
+    background-color: var(--input_index_search);
+    border: none;
+    border-radius: 15px;
+    color: var(--light_color_1);
+    color-scheme: var(--light_color_1);
+    box-shadow:  0px 11px 7px -6px rgba(0,0,0,0.58);
+}
+.forms-nav-bar button{
+    box-shadow:  0px 11px 7px -6px rgba(0,0,0,0.58);
+}
+
+.navbar-nav{
+    flex-direction: row !important;
+}
+
+.nav-sidebar .nav-link p {
+    white-space: nowrap;
+}
+
+.layout-fixed .main-sidebar {
+    height: 100%;
+}
+
+/* ======================================================================= */
+
+/* Datatables serach */
+#dt-search-0{
+    height: 38px;
+}
+
+/* toastask */
+.toast_box {
+    position: fixed;
+    top: 60px;
+    right: 20px;
+    z-index: 999 !important;
+    min-width: 300px;
+    color: var(--general-font-color);
+}
+
+.toast-body { background-color: var(--light_color_4);}
+.toast-header-danger{ background-color: var(--red);}
+
+.toast-header-warning,
+.toast-header-danger,
+.toast-header-success {
+    color: #ffffff;
+}
+
+/* ======================================================================= */
+
+/* Modais */
+
+#infoModal .modal-content{
+    background-image: var(--background_login_register);
+    border: none;
+}
+#infoModal .modal-header{
+    justify-content: center;
+}
+#infoModal .modal-body{
+    margin-top: 5px;
+    text-align: center;
+}
+#infoModal .modal-footer{
+    border-top: 0px;
+}
+#infoModal .btn{
+    width: 8vw;
+}
+
+/* ======================================================================= */
+
+/* Login */
+
+#login-form{
+    /* background-color: var(--background_login_register); */
+    background-image: var(--background_login_register);
+    padding: 2rem;
+    border-radius: 8px;
+    margin-top: 4rem;
+    margin-bottom: 4rem;
+    max-width: 20vw;
+    /* centraliza */
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+
+    box-shadow: -1px 10px 20px 0px rgba(0,0,0,0.75);
+}
+
+/* ======================================================================= */
+
+/* Register */
+
+#register-form{
+    /* background-color: var(--background_login_register); */
+    background-image: var(--background_login_register);
+    padding: 2rem;
+    border-radius: 8px;
+    margin-top: 4rem;
+    margin-bottom: 4rem;
+    /* margin-left: 10%; */
+    max-width: 80vw;
+
+    /* centraliza */
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+
+    box-shadow: -1px 10px 20px 0px rgba(0,0,0,0.75);
+}
+
+.form-group select, .form-group select:focus, .form-group select:hover, .form-group select:active{
+    background: var(--color_input);
+    border: none;
+    border-radius: 4px;
+    color: var(--cores_letras);
+    font-size: 1rem;
+    padding: 0.5rem;
+}
+
+/* ======================================================================= */
+
+/* recaptcha */
+
+.g-recaptcha {
+    display: flex;
+    justify-content: center;
+    transform: scale(0.9); /* Ajuste a escala conforme necessário */
+    -webkit-transform: scale(0.9);
+    transform-origin: 0 0;
+    -webkit-transform-origin: 0 0;
+    margin: auto;
+    padding-left: 4rem;
+}
+
+/* ======================================================================= */
+
+/* Inputs */
+
+.form-group input, .form-group input:focus, .form-group input:hover, .form-group input:active{
+    background: var(--color_input);
+    border: none;
+    border-radius: 4px;
+    color: var(--cores_letras);
+    font-size: 1rem;
+    padding: 0.5rem;   
+    text-align: center;
+}
+
+.input-number::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+}
+
+/* ======================================================================= */
+
+/* logo TP */
+
+.logo-TP{
+    padding-top: 2rem;
+    /* margin-left: 10%; */
+    max-width: 80vw;
+
+    /* centraliza */
+    display: block;
+    margin-left: auto;
+    margin-right: auto
+}
+
+/* Mobile View  Index*/
+@media only screen and (max-width: 600px) {
+
+    .razao_social_cell {
+        display: none;
+    }
+
+    .cabecalho h2 {
+        text-align: center !important;
+        margin-right: 0 !important;
+        margin-left: 0 !important;
+    }
+
+    #search-placa-form {
+        align-self: center;
+        margin-right: 0 !important;
+        margin-left: 0 !important;
+    }
+
+}
+
+@media screen and (min-width: 912px) and (max-width: 1024px) {
+    .logo-TP{
+        padding-top: 3rem;
+    }
+    #register-form{
+        max-width: 60vw;
+    }
+
+    .name-fields{
+        display: flex;
+        flex-direction: row;
+        /* Dando espacamento entre os campos */
+        gap: 1rem;
+        /* Alinhando os campos */
+        justify-content: center;
+    }
+    .img-fluid{
+        max-width: 3vw;
+    }
+
+    #email-field{
+        width: 100%;
+    }
+    .g-recaptcha {
+        width: 304px;
+        margin: auto;
+    }
+    #login-form{
+        max-width: 30vw;
+    }
+}
+
+/* Responsivo para Desktop */
+@media screen and (min-width: 1025px) {
+    .logo-TP{
+        max-width: 100vw;
+        padding-top: 5rem;
+    }
+
+    #register-form{
+        max-width: 50vw;
+    }
+
+    .name-fields{
+        display: flex;
+        flex-direction: row;
+        /* Dando espacamento entre os campos */
+        gap: 0.3rem;
+        /* Alinhando os campos */
+        justify-content: center;
+    }
+
+    #email-field{
+        width: 100%;
+    }
+    .g-recaptcha {
+        width: 304px;
+        margin: auto;
+        padding-left: 2rem;
+    }
+    .img-fluid{
+        max-width: 2vw;
+    }
+}
+
+/* Responsivo para Tablets */
+
+@media screen and (min-width: 768px) and (max-width: 911px) {
+    .logo-TP{
+        padding-top: 3rem;
+    }
+
+    .name-fields{
+        display: flex;
+        flex-direction: row;
+        /* Dando espacamento entre os campos */
+        gap: 1rem;
+        /* Alinhando os campos */
+        justify-content: center;
+    }
+
+    #email-field{
+        width: 100%;
+    }
+
+    .card-img-top{
+        max-width: 4vw;
+        float: inline-start;
+        align-items: center;
+        margin: 0 1rem 0 0;
+        padding-bottom: 0.5rem;
+        opacity: 50%;
+    }
+    .g-recaptcha {
+        width: 304px;
+        margin: auto;
+    }
+    #login-form{
+        max-width: 50vw;
+    }
+
+}

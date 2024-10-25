@@ -1,39 +1,29 @@
 <!DOCTYPE html>
-
 <html lang="en">
+<head>
 
-  <head>
+  {% include 'components/header.html' %}
 
-    {% include 'components/header.html' %}
-  
-  </head>
+</head>
 
-  <body class="hold-transition sidebar-mini layout-fixed">
-
+<body class="hold-transition sidebar-mini layout-fixed layout-navbar-fixed">
     <div class="wrapper">
-
       {% include 'components/navbar.html' %}
 
-      <div class="content-wrapper content-index">
-
-        <div class="container-fluid">
-
-          <div class="container">
-            <div class="row">
-              <div class="col">
-
-                {% include 'videos.html'}
-
-              </div>
+        <div class="content-wrapper content-index px-4 py-2" style="position: relative;">
+            <div class="container">
+                <div class="row mt-4">
+                    <div class="col-md-12 text-center" style="position: relative; z-index: 1;">
+                        <h1 class="mt-5">RSS Feed Reader</h1>
+                        <p class="lead mt-5 ml-5 mr-5" style="font-size: 16px;">
+                            Em construção.
+                        </p>
+                    </div>
+                </div>
             </div>
-          </div>
-
         </div>
-
-      </div>
-
     </div>
+    
 
-  </body>
-
+</body>
 </html>

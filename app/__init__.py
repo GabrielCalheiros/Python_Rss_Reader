@@ -1,8 +1,6 @@
-from flask import Flask
+from flask import Flask, Blueprint
 from flask_sqlalchemy import SQLAlchemy
 from config import Config
-
-from .jobs import start_scheduler, shutdown_scheduler  # Import the functions from jobs.py
 
 # Inicializando as extensões
 db = SQLAlchemy()
