@@ -1,7 +1,7 @@
 from flask import Blueprint, render_template, request, redirect, url_for, flash
 import os
 from flask import current_app
-from app.models import Category, Subcategory, Feed  # Adjust path if necessary
+from app.models import Category, Subcategory, Feed, Entry  # Adjust path if necessary
 
 from app import db  # Importe db conforme a estrutura do seu projeto
 
@@ -91,3 +91,69 @@ def import_opml():
             return redirect(url_for('main.index'))
 
     return render_template('import_opml.html')
+
+# Category Routes ########################################################################################
+
+@main.route('/category/<int:category_id>/entries')
+def category_entries(category_id):
+    # Retrieve the category by ID, along with its entries via the subcategory relationship
+    category = Category.query.get_or_404(category_id)
+
+    # Gather all entries linked to this category via its subcategories
+    entries = (
+        db.session.query(Entry)
+        .join(Subcategory)
+        .filter(Subcategory.id_category == category_id)
+        .all()
+    )
+
+    # Pass entries and category details to the template
+    return render_template('category_entries.html', category=category, entries=entries)
+
+# Update Feeds Routes ####################################################################################
+
+@main.route('/update_feeds', methods=['POST'])
+def update_feeds():
+    # Get all feeds from the database
+    feeds = Feed.query.all()
+    
+    # Loop through each feed to update entries
+    for feed in feeds:
+        # Fetch updated entries from the RSS feed URL
+        entries_df = fetch_rss_feed(feed.xml_url)
+        
+        for _, row in entries_df.iterrows():
+            # Check if the entry already exists in the database
+            entry_exists = Entry.query.filter_by(
+                title=row['Title'],
+                link=row['Link'],
+                id_subcategory=feed.id_subcategory
+            ).first()
+
+            # If not, add it as a new entry
+            if not entry_exists:
+                new_entry = Entry(
+                    id_subcategory=feed.id_subcategory,
+                    title=row['Title'],
+                    subtitle=row['Subtitle'] or '',
+                    link=row['Link'],
+                    author=row['Author'] or '',
+                    published=row['Published'] or '',
+                    tags=','.join(row['Tags']) if row['Tags'] else '',
+                    summary=row['Summary'] or '',
+                    content=row['Content'] or '',
+                    comments=row['Comments'] or '',
+                    image=row['Image'] or '',
+                    rating=row['Rating'] or '',
+                    statistics=row['Statistics'] or '',
+                    duration=row['Duration'] or '',
+                    description=row['Description'] or '',
+                    publisher=row['Publisher'] or ''
+                )
+                print("Nova entrada:")
+                print(new_entry)
+                db.session.add(new_entry)
+
+    db.session.commit()
+    flash("Feeds updated successfully!")
+    return redirect(url_for('main.index'))

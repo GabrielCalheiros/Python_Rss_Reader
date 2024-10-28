@@ -1,0 +1,22 @@
+<!-- Button trigger modal -->
+<button type="button" class="btn btn-primary" onclick="updateFeeds()">
+    Update Feeds
+</button>
+
+<script>
+    function updateFeeds() {
+        console.log('Updating feeds...');
+        fetch('/update_feeds', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            }
+        }).then(response => {
+            if (response.ok) {
+                alert('Feeds updated successfully!');
+            } else {
+                alert('Failed to update feeds.');
+            }
+        });
+    }
+</script>

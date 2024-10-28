@@ -1,7 +1,7 @@
 import feedparser
 import pandas as pd
 import tabulate
-import app.utils
+from . import utils
 import xml.etree.ElementTree as ET
 import pandas as pd
 
@@ -26,6 +26,9 @@ def fetch_rss_feed(feed_url):
             getattr(entry, 'itunes_title', None)
         )
         
+        subtitle = str(subtitle)
+        
+        
         link = (
             getattr(entry, 'link', None) or 
             getattr(entry, 'links', None) or 
@@ -47,6 +50,8 @@ def fetch_rss_feed(feed_url):
             getattr(entry, 'media_content', None)
         )
         
+        content = str(content)
+                
         comments = (
             getattr(entry, 'comments', None) or 
             getattr(entry, 'wfw_commentrss', None) or 
@@ -77,6 +82,8 @@ def fetch_rss_feed(feed_url):
             getattr(entry, 'publisher', None) or 
             getattr(entry, 'publisher_detail', None)
         )
+        
+
         
         # Append entry data to the list
         entries_data.append({
@@ -160,4 +167,5 @@ def parse_opml_to_df(opml_file_path):
 
 # if __name__ == "__main__":
 #     main()
+    
     
