@@ -12,6 +12,8 @@
 
             {% include 'components/sidebar.html' %}
 
+
+
             <!-- Content Wrapper. Contains page content -->
             <div class="content-wrapper" style="min-height: 528px">
 
@@ -24,18 +26,18 @@
                             <div class="col">
                                 <div class="card">
                                     <div class="card-header border-0">
+                                        <div class="d-flex justify-content-between">
                                             
 
 
-                                            
-                                            <div class="row text-left">
-                                                {% include 'modals/modal_import_opml.html' %}
-                                            </div>
+
+                                            <h3 class="card-title">CONTENT</h3>
                                         
 
-                                            
+                                            {% include 'modals/modal_import_opml.html' %}
 
 
+                                        </div>
                                     </div>
                                 </div>
                             </div>

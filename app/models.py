@@ -4,14 +4,14 @@ from app import db
 
 Base = declarative_base()
 
-class Category(Base):
+class Category(db.Model):
     __tablename__ = 'category'
     id_category = Column(Integer, primary_key=True)
     category_name = Column(String(255), nullable=False)
 
     feeds = relationship("Feed", back_populates="category")
 
-class Subcategory(Base):
+class Subcategory(db.Model):
     __tablename__ = 'subcategory'
     id_subcategory = Column(Integer, primary_key=True)
     name_subcategory = Column(String(255), nullable=False)
@@ -21,14 +21,14 @@ class Subcategory(Base):
     feeds = relationship("Feed", back_populates="subcategory")
     entries = relationship("Entry", back_populates="subcategory")
 
-class View(Base):
+class View(db.Model):
     __tablename__ = 'view'
     id_view = Column(Integer, primary_key=True)
     view_name = Column(Integer, nullable=False)
 
     subcategories = relationship("Subcategory", back_populates="view")
 
-class Feed(Base):
+class Feed(db.Model):
     __tablename__ = 'feeds'
     id_feed = Column(Integer, primary_key=True)
     id_category = Column(Integer, ForeignKey('category.id_category'), nullable=False)
@@ -41,7 +41,7 @@ class Feed(Base):
     category = relationship("Category", back_populates="feeds")
     subcategory = relationship("Subcategory", back_populates="feeds")
 
-class Entry(Base):
+class Entry(db.Model):
     __tablename__ = 'entries'
     id_entry = Column(Integer, primary_key=True)
     id_subcategory = Column(Integer, ForeignKey('subcategory.id_subcategory'), nullable=False)

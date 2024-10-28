@@ -1,7 +1,7 @@
 import feedparser
 import pandas as pd
 import tabulate
-import utils
+import app.utils
 import xml.etree.ElementTree as ET
 import pandas as pd
 
@@ -119,15 +119,6 @@ def fetch_rss_feed(feed_url):
     return entries_df
 
 def parse_opml_to_df(opml_file_path):
-    """
-    Parses an OPML file into a Pandas DataFrame with feed information.
-    
-    Args:
-        opml_file_path (str): Path to the OPML file.
-        
-    Returns:
-        pd.DataFrame: DataFrame with columns ['Category', 'Subcategory', 'Feed', 'htmlUrl', 'xmlUrl'].
-    """
     # Parse the OPML file
     tree = ET.parse(opml_file_path)
     root = tree.getroot()
@@ -163,10 +154,10 @@ def parse_opml_to_df(opml_file_path):
 
 # Testing ##############################################################################################################
 
-def main ():
-    parse_opml_to_df('./opml_test.opml')
-    # fetch_rss_feed('https://anchor.fm/s/2b00eb34/podcast/rss')
+# def main ():
+#     parse_opml_to_df('./opml_test.opml')
+#     # fetch_rss_feed('https://anchor.fm/s/2b00eb34/podcast/rss')
 
-if __name__ == "__main__":
-    main()
+# if __name__ == "__main__":
+#     main()
     

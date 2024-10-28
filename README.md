@@ -51,6 +51,8 @@ The first outline is the main category, the second the sub-category and the last
     ├── config.py
     ├── run.py
     └── app
+        ├── tmp
+        │   └── [TEMPORARY FILES]
         ├── __init__.py
         ├── models.py
         ├── routes.py 
