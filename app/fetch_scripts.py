@@ -105,21 +105,21 @@ def fetch_rss_feed(feed_url):
         })
         
         utils.print_line()
-        print(f"Title: {title}")
-        print(f"\nSubtitle: {subtitle}")
-        print(f"\nLink: {link}")
-        print(f"\nAuthor: {author}")
-        print(f"\nPublished: {published}")
-        print(f"\nTags: {tags}")
-        print(f"\nSummary: {summary}")
-        print(f"\nContent: {content}")
-        print(f"\nComments: {comments}")
-        print(f"\nImage: {image}")
-        print(f"\nRating: {rating}")
-        print(f"\nStatistics: {statistics}")
-        print(f"\nDuration: {duration}")
-        print(f"\nDescription: {description}")
-        print(f"\nPublisher: {publisher}")
+        print(f"[Title] Type: {type(title)} Characters: {len(title)}") # Title
+        print(f"[Subtitle] Type: {type(subtitle)} Characters: {len(subtitle)}") # Subtitle
+        print(f"[Link] Type: {type(link)} Characters: {len(link)}") # Link
+        print(f"[Author] Type: {type(author)} Characters: {len(author)}") # Author
+        print(f"[Published] Type: {type(published)} Characters: {len(published)}") # Publishe
+        print(f"[Tags] Type: {type(tags)} Characters: {len(tags)}") # Tags
+        print(f"[Summary] Type: {type(summary)} Characters: {len(summary)}") # Summary
+        print(f"[Content] Type: {type(content)} Characters: {len(content)}") # Content
+        print(f"[Comments] Type: {type(comments)} Characters: {len(comments)}") # Comments
+        print(f"[Image] Type: {type(image)} Characters: {len(image)}") # Image
+        print(f"[Rating] Type: {type(rating)} Characters: {len(rating)}") # Rating
+        print(f"[Statistics] Type: {type(statistics)} Characters: {len(statistics)}") # Statistics
+        print(f"[Duration] Type: {type(duration)} Characters: {len(duration)}") # Duration
+        print(f"[Description] Type: {type(description)} Characters: {len(description)}") # Description
+        print(f"[Publisher] Type: {type(publisher)} Characters: {len(publisher)}") # Publisher
     
     # Convert the list of dictionaries to a DataFrame
     entries_df = pd.DataFrame(entries_data)
