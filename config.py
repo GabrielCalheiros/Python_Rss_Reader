@@ -1,11 +1,14 @@
+"""
+Arquivo de configuração da aplicação
+"""
+
 from dotenv import dotenv_values
-from datetime import timedelta
 
 # Obtem o arquivo .env e armazena suas variáveis em um dicionário
 config = dotenv_values(".env")
 
 # Classe usada para armazenar os parâmetros de configuração da aplicação.
-class Config:
+class Config: # pylint: disable=too-few-public-methods
     """
     Classe usada para armazenar os parâmetros de configuração da aplicação.
     

@@ -1,5 +1,6 @@
 # Python Rss Reader
 
+![image](https://img.shields.io/badge/RSS-FFA500?style=for-the-badge&logo=rss&logoColor=white)
 ![image](https://img.shields.io/badge/CSS3-1572B6?style=for-the-badge&logo=css3&logoColor=white)
 ![image](https://img.shields.io/badge/HTML5-E34F26?style=for-the-badge&logo=html5&logoColor=white)
 ![image](https://img.shields.io/badge/JavaScript-323330?style=for-the-badge&logo=javascript&logoColor=F7DF1E)
@@ -69,8 +70,8 @@ The first outline is the main category, the second the sub-category and the last
         │   |   └───jquery-3.6.0.min.js
         │   └── images
         │       ├───[IMAGES]
-        |       └── feed_icons
-        |           └── [FEED_ICONS]
+        |       ├── feed_icons
+        |       └── [FEED_ICONS]
         └── templates
             ├── index.html
             ├── category_view.html
@@ -78,9 +79,8 @@ The first outline is the main category, the second the sub-category and the last
             ├── single_feed_view.html
             └── components
                 ├── header.html
-                ├── navbar.html
+              ├── navbar.html
                 └── [MINOR COMPONENTS]
-
 </pre>
 
 ### Project Routes:
@@ -98,9 +98,11 @@ The first outline is the main category, the second the sub-category and the last
 - /update_feeds
 - /add_feed
 - /remove_feed
+- 
 Todo list notes:
 [] Unify published and published_parsed
 [] Unify content and media_content
 [] Unify wfw_commentrss and slash_comments
 [] Unify image and media_thumbnail and googleplay_image
 [] Unify itunes_explicit and googleplay_explicit
+
